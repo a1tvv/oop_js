@@ -1,0 +1,11 @@
+django==5.0.6
+asgiref
+sqlparse
+whitenoise
+python-dotenv
+django-storages
+boto3
+feedparser
+requests
+dj-database-url
+psycopg2-binary

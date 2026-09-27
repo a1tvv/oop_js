@@ -1,0 +1,695 @@
+/* ============================================================
+   СВЕТ СУННЫ — ТЁМНАЯ ТЕМА (YouTube Style)
+   ============================================================ */
+
+:root {
+    --bg-color: #0f0f0f;
+    --sidebar-bg: #0f0f0f;
+    --text-main: #f1f1f1;
+    --text-muted: #aaaaaa;
+    --accent-red: #ff0000;
+    --accent-blue: #3ea6ff;
+    --hover-bg: #272727;
+    --border-color: #272727;
+    --card-bg: #272727;
+}
+
+/* ========== БАЗА ========== */
+* { box-sizing: border-box; }
+
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    color: var(--text-main);
+    -webkit-font-smoothing: antialiased;
+}
+
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+
+/* ========== ШАПКА ========== */
+.header {
+    background-color: var(--bg-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 8px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: 56px;
+    display: flex;
+    align-items: center;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 16px;
+}
+
+.left-group {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-main);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+}
+.menu-toggle:hover { background-color: var(--hover-bg); }
+
+.brand {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+}
+
+/* ========== ПОИСК ========== */
+.search-bar {
+    display: flex;
+    align-items: stretch;
+    flex: 1;
+    max-width: 600px;
+    margin: 0 auto;
+    height: 40px;
+}
+
+.search-bar input {
+    flex: 1;
+    background-color: #121212;
+    border: 1px solid #303030;
+    border-right: none;
+    color: #fff;
+    padding: 0 16px;
+    border-radius: 20px 0 0 20px;
+    outline: none;
+    font-size: 15px;
+    height: 100%;
+}
+.search-bar input::placeholder { color: #888; }
+.search-bar input:focus { border-color: var(--accent-blue); }
+
+.search-bar button {
+    background-color: #222;
+    border: 1px solid #303030;
+    border-left: none;
+    color: #fff;
+    padding: 0 20px;
+    border-radius: 0 20px 20px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    transition: background-color 0.2s;
+}
+.search-bar button:hover { background-color: #303030; }
+.search-bar button i { font-size: 14px; }
+
+.right-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.nav-link {
+    color: var(--text-main);
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 8px 16px;
+    border-radius: 18px;
+    transition: background-color 0.2s;
+}
+.nav-link:hover { background-color: var(--hover-bg); }
+
+.tg-link {
+    background-color: var(--accent-blue);
+    color: #0f0f0f !important;
+    font-weight: 600;
+}
+
+/* ========== МАКЕТ ========== */
+.app-layout {
+    display: flex;
+    min-height: calc(100vh - 56px);
+}
+
+/* ========== САЙДБАР ========== */
+.sidebar-nav {
+    width: 240px;
+    background-color: var(--sidebar-bg);
+    height: calc(100vh - 56px);
+    position: sticky;
+    top: 56px;
+    overflow-y: auto;
+    padding: 12px;
+    flex-shrink: 0;
+    scrollbar-width: thin;
+    scrollbar-color: #555 transparent;
+    z-index: 2000;
+}
+.sidebar-nav::-webkit-scrollbar { width: 8px; }
+.sidebar-nav::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 4px;
+}
+
+.sidebar-nav h3 {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin: 16px 0 8px 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    color: var(--text-main);
+    transition: background-color 0.15s;
+    margin-bottom: 2px;
+}
+.sidebar-link:hover { background-color: var(--hover-bg); }
+
+.sidebar-link .icon-wrapper {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #333;
+}
+.sidebar-link .icon-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.sidebar-link span {
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ========== КОНТЕНТ ========== */
+.main-content {
+    flex: 1;
+    padding: 24px;
+    overflow-x: hidden;
+    min-width: 0;
+}
+
+/* ========== БАННЕР ========== */
+.channel-banner {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    background-color: #272727;
+}
+.channel-banner img { width: 100%; height: 100%; object-fit: cover; }
+
+.banner-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.75) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 24px 32px;
+}
+.banner-overlay h1 {
+    margin: 0 0 8px 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+.banner-overlay p {
+    margin: 0;
+    font-size: 15px;
+    color: #e0e0e0;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+}
+
+/* ========== ИНФО О КАНАЛЕ ========== */
+.channel-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 20px 0 28px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.channel-info-avatar {
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #333;
+}
+.channel-info-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+.channel-info-text { flex: 1; min-width: 0; }
+
+.channel-info-name {
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    line-height: 1.2;
+}
+.channel-info-name .fa-check-circle {
+    font-size: 15px;
+    color: var(--text-muted);
+}
+
+.channel-info-meta {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+}
+
+.channel-info-desc {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin: 0 0 12px 0;
+    max-width: 720px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.channel-info-more {
+    color: var(--text-main);
+    font-weight: 500;
+    margin-left: 4px;
+}
+.channel-info-more:hover { text-decoration: underline; }
+
+.channel-info-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 16px;
+    font-size: 13px;
+}
+.channel-info-links a {
+    color: var(--accent-blue);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.channel-info-links a:hover { text-decoration: underline; }
+
+.channel-info-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* ========== КНОПКИ ========== */
+.btn-subscribe,
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border-radius: 22px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    white-space: nowrap;
+    transition: background-color 0.2s, color 0.2s, transform 0.1s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.btn-subscribe {
+    background: #fff;
+    color: #0f0f0f;
+}
+.btn-subscribe:hover { background: #d9d9d9; transform: translateY(-1px); }
+.btn-subscribe:active { transform: scale(0.97); }
+.btn-subscribe .fa-bell { font-size: 14px; transition: color 0.25s; }
+
+.btn-subscribe.btn-subscribed {
+    background: #272727;
+    color: #f1f1f1;
+    border: 1px solid var(--accent-blue);
+    box-shadow: 0 0 0 0 rgba(62,166,255,0.5);
+    animation: subscribedGlow 2s ease-out;
+}
+.btn-subscribe.btn-subscribed .fa-bell { color: var(--accent-blue); }
+
+@keyframes subscribedGlow {
+    0%   { box-shadow: 0 0 0 0 rgba(62,166,255,0.7); }
+    70%  { box-shadow: 0 0 0 14px rgba(62,166,255,0); }
+    100% { box-shadow: 0 0 0 0 rgba(62,166,255,0); }
+}
+
+.btn-secondary {
+    background: var(--hover-bg);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    font-weight: 500;
+}
+.btn-secondary:hover { background: #3f3f3f; }
+
+/* ========== СЕТКА КАРТОЧЕК ========== */
+.feed-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 28px 16px;
+    align-items: start;
+}
+
+.card {
+    background: transparent;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+.card:hover { transform: translateY(-2px); }
+
+.card-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+.card-image img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: opacity 0.2s;
+}
+.card:hover .card-image img { opacity: 0.85; }
+
+.card-body { display: flex; gap: 12px; align-items: flex-start; }
+
+.video-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background-color: #333;
+    margin-top: 2px;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+.video-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.video-avatar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 2px var(--accent-blue);
+}
+
+.video-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+}
+
+.video-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-main);
+    margin: 0;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
+}
+
+.video-meta {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-date {
+    font-size: 13px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.card-date i { font-size: 11px; opacity: 0.7; }
+
+/* ========== ОВЕРЛЕЙ ========== */
+.menu-overlay {
+    display: none;
+    position: fixed;
+    top: 56px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 56px);
+    background: rgba(0,0,0,0.6);
+    z-index: 1500;
+}
+.menu-overlay.active { display: block; }
+
+/* ========== FOOTER ========== */
+.footer {
+    background: transparent;
+    margin-top: 50px;
+    padding: 40px 24px 20px;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-muted);
+}
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+.footer-bottom a { color: var(--accent-blue); }
+
+/* ============================================================
+   АДАПТИВ — МОБИЛЬНАЯ ВЕРСИЯ (<= 900px)
+   ============================================================ */
+@media (max-width: 900px) {
+
+    /* --- ШАПКА --- */
+    .menu-toggle { display: block; }
+    .brand { display: none; }
+
+    .search-bar {
+        flex: 1;
+        max-width: none;
+        margin: 0 8px;
+        height: 36px;
+    }
+    .search-bar input { font-size: 14px; padding: 0 12px; }
+    .search-bar button { padding: 0 14px; }
+    .search-bar button i { font-size: 13px; }
+
+    .right-group .tg-link { display: none; }
+
+    /* --- БАННЕР --- */
+    .channel-banner {
+        height: 180px;
+        border-radius: 12px;
+        margin-bottom: 16px;
+    }
+    .banner-overlay { padding: 16px 20px; }
+    .banner-overlay h1 { font-size: 20px; }
+    .banner-overlay p { font-size: 13px; }
+
+    /* --- ИНФО О КАНАЛЕ (левое выравнивание, как на YouTube) --- */
+    .channel-info {
+        flex-direction: column;
+        align-items: flex-start;    /* ← прижимаем влево */
+        text-align: left;           /* ← и текст тоже */
+        gap: 14px;
+        padding: 16px 0 20px;
+        margin-bottom: 20px;
+    }
+
+    .channel-info-avatar {
+        width: 96px;
+        height: 96px;
+    }
+
+    .channel-info-name {
+        font-size: 20px;
+        justify-content: flex-start; /* ← имя слева */
+    }
+
+    .channel-info-desc {
+        font-size: 13px;
+        max-width: 100%;
+    }
+
+    .channel-info-links,
+    .channel-info-actions {
+        justify-content: flex-start; /* ← ссылки и кнопки слева */
+        width: 100%;
+    }
+
+    /* Кнопки: не растягиваются, идут в ряд */
+    .btn-subscribe,
+    .btn-secondary {
+        width: auto;
+        max-width: none;
+        flex: 0 0 auto;
+        padding: 9px 16px;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    /* --- СЕТКА КАРТОЧЕК --- */
+    .feed-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    /* --- КОНТЕНТ --- */
+    .main-content { padding: 16px; }
+
+    /* --- САЙДБАР (слайдер) --- */
+    .sidebar-nav {
+        position: fixed;
+        left: -280px;
+        top: 56px;
+        width: 280px;
+        height: calc(100vh - 56px);
+        background-color: #212121;
+        box-shadow: 4px 0 15px rgba(0,0,0,0.7);
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        padding: 0;
+    }
+    .sidebar-nav.active { left: 0; }
+
+    .sidebar-nav .sidebar-scroll {
+        padding: 12px 0 0 0;
+        display: flex;
+        flex-direction: column;
+    }
+    .sidebar-nav .sidebar-scroll::after {
+        content: '';
+        display: block;
+        height: 80px;
+        flex-shrink: 0;
+    }
+
+    .sidebar-nav .sidebar-link {
+        padding: 12px 24px;
+        gap: 20px;
+        border-radius: 0;
+        margin-bottom: 0;
+    }
+    .sidebar-nav .sidebar-link .icon-wrapper {
+        width: 36px;
+        height: 36px;
+    }
+    .sidebar-nav .sidebar-link span {
+        font-size: 1rem;
+        white-space: normal;
+        line-height: 1.3;
+    }
+    .sidebar-nav h3 {
+        font-size: 0.85rem;
+        margin: 24px 24px 8px 24px;
+        color: #888;
+    }
+}
+
+/* ============================================================
+   АНИМАЦИИ ПОДПИСКИ (ripple, spark, звон)
+   ============================================================ */
+.btn-subscribe .fa-bell.ringing {
+    animation: bellRing 0.9s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+    transform-origin: top center;
+    display: inline-block;
+}
+@keyframes bellRing {
+    0%, 100% { transform: rotate(0); }
+    10% { transform: rotate(14deg); }
+    20% { transform: rotate(-12deg); }
+    30% { transform: rotate(10deg); }
+    40% { transform: rotate(-8deg); }
+    50% { transform: rotate(6deg); }
+    60% { transform: rotate(-4deg); }
+    70% { transform: rotate(2deg); }
+    80% { transform: rotate(-1deg); }
+}
+
+.btn-subscribe .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(62,166,255,0.5);
+    transform: scale(0);
+    animation: rippleEffect 0.7s ease-out;
+    pointer-events: none;
+    z-index: 0;
+}
+@keyframes rippleEffect {
+    to { transform: scale(4); opacity: 0; }
+}
+
+.btn-subscribe.pulse::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 25px;
+    background: radial-gradient(circle, rgba(62,166,255,0.5) 0%, transparent 70%);
+    animation: pulseGlow 1.2s ease-out;
+    pointer-events: none;
+    z-index: -1;
+}
+@keyframes pulseGlow {
+    0%   { transform: scale(0.9); opacity: 0.8; }
+    100% { transform: scale(1.6); opacity: 0; }
+}
+
+.spark {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: var(--accent-blue);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: sparkFly 0.8s ease-out forwards;
+}
+@keyframes sparkFly {
+    0%   { transform: translate(0, 0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+}

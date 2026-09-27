@@ -1,0 +1,296 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Свет Сунны🌙✨{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="{% static 'img/favicon.jpg' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const btn = document.getElementById('subscribe-btn');
+        const btnText = document.getElementById('subscribe-text');
+        if (!btn) return;
+
+        const STORAGE_KEY = 'svet_sunny_last_video';
+        const SUBSCRIBED_KEY = 'svet_sunny_subscribed';
+        const CHECK_INTERVAL = 60 * 1000; // проверять раз в 60 секунд
+
+        // --- 1. Обновляем вид кнопки в зависимости от состояния ---
+        function updateButton() {
+            const subscribed = localStorage.getItem(SUBSCRIBED_KEY) === 'true';
+            if (subscribed) {
+                btnText.textContent = 'Уведомления включены';
+                btn.classList.add('btn-subscribed');
+            } else {
+                btnText.textContent = 'Подписаться на уведомления';
+                btn.classList.remove('btn-subscribed');
+            }
+        }
+
+        // --- 2. Запрос разрешения у браузера ---
+        async function requestPermission() {
+            if (!('Notification' in window)) {
+                alert('Ваш браузер не поддерживает уведомления.');
+                return false;
+            }
+            if (Notification.permission === 'granted') return true;
+            if (Notification.permission === 'denied') {
+                alert('Вы запретили уведомления в настройках браузера. Разрешите их вручную.');
+                return false;
+            }
+            const permission = await Notification.requestPermission();
+            return permission === 'granted';
+        }
+
+        // --- 3. Показ уведомления ---
+        function showNotification(video) {
+            const n = new Notification('Новое видео на канале «К Исламу»', {
+                body: video.title,
+                icon: '/static/img/favicon.jpg',
+                image: video.image,
+                tag: video.id,
+                requireInteraction: false,
+            });
+            n.onclick = function () {
+                window.open(video.url, '_blank');
+                n.close();
+            };
+            setTimeout(() => n.close(), 10000);
+        }
+
+        // --- 4. Проверка новых видео ---
+        async function checkNewVideo() {
+            try {
+                const res = await fetch('/api/latest-video/');
+                const data = await res.json();
+                if (!data.id) return;
+
+                const lastId = localStorage.getItem(STORAGE_KEY);
+                if (!lastId) {
+                    localStorage.setItem(STORAGE_KEY, data.id);
+                    return;
+                }
+
+                if (lastId !== data.id) {
+                    localStorage.setItem(STORAGE_KEY, data.id);
+                    if (localStorage.getItem(SUBSCRIBED_KEY) === 'true' &&
+                        Notification.permission === 'granted') {
+                        showNotification(data);
+                    }
+                }
+            } catch (e) {
+                console.error('Ошибка проверки видео:', e);
+            }
+        }
+
+        // --- 5. Клик по кнопке ---
+        btn.addEventListener('click', async function () {
+            const subscribed = localStorage.getItem(SUBSCRIBED_KEY) === 'true';
+
+            if (subscribed) {
+                // Отписка
+                localStorage.setItem(SUBSCRIBED_KEY, 'false');
+                updateButton();
+                return;
+            }
+
+            const ok = await requestPermission();
+            if (!ok) return;
+
+            localStorage.setItem(SUBSCRIBED_KEY, 'true');
+            updateButton();
+
+            // Приветственное уведомление
+            new Notification('Готово!', {
+                body: 'Теперь вы будете получать уведомления о новых видео.',
+                icon: '/static/img/favicon.jpg',
+            });
+        });
+
+        // --- 6. Инициализация ---
+        updateButton();
+        checkNewVideo();
+        setInterval(checkNewVideo, CHECK_INTERVAL);
+    });
+    </script>
+    
+    <!-- Шапка -->
+    <header class="header">
+        <div class="header-content">
+            <div class="left-group">
+                <!-- Бургер (виден только на мобильных) -->
+                <button class="menu-toggle" id="menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a href="{% url 'index'%}" class="logo-area">
+                    <span class="brand">Свет Сунны🌙✨</span>
+                </a>
+            </div>
+
+            <!-- Поиск -->
+            <div class="search-bar">
+                <input type="text" placeholder="Поиск">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Баннер нового видео -->
+    {% if featured_video %}
+        <a href="{{ featured_video.url }}" target="_blank" rel="noopener" class="new-video-banner">
+            <i class="fab fa-youtube"></i>
+            <span>Новое видео на канале «К Исламу»: {{ featured_video.title }}</span>
+        </a>
+    {% endif %}
+
+    <!-- Основной макет -->
+    <div class="app-layout">
+        
+        <!-- ЛЕВЫЙ САЙДБАР -->
+        <nav class="sidebar-nav" id="sidebar-nav">
+            <div class="sidebar-scroll">
+                
+                <h3>Ринат Абу Мухаммад</h3>
+                <a href="https://t.me/toislam" class="sidebar-link">
+                    <div class="icon-wrapper"><img src="https://abdurtwhd.ams3.cdn.digitaloceanspaces.com/icon/to_islam.jpg" alt=""></div>
+                    <span>К Исламу</span>
+                </a>
+                <a href="https://t.me/tolkovaniya_imen" class="sidebar-link">
+                    <div class="icon-wrapper"><img src="https://abdurtwhd.ams3.cdn.digitaloceanspaces.com/icon/imena-allaha.jpg" alt=""></div>
+                    <span>Толкование имен Аллаха</span>
+                </a>
+                <a href="https://t.me/izuchaem_tauhid" class="sidebar-link">
+                    <div class="icon-wrapper"><img src="https://abdurtwhd.ams3.cdn.digitaloceanspaces.com/icon/tauhid.jpg" alt=""></div>
+                    <span>Изучаем Единобожие / Таухид</span>
+                </a>
+                <a href="https://t.me/toislamdata" class="sidebar-link">
+                    <div class="icon-wrapper"><img src="https://abdurtwhd.ams3.cdn.digitaloceanspaces.com/icon/video-to-islam.jpg" alt=""></div>
+                    <span>Видео "К Исламу"</span>
+                </a>
+                <a href="https://t.me/izuchaem_sunnu" class="sidebar-link">
+                    <div class="icon-wrapper"><img src="https://abdurtwhd.ams3.cdn.digitaloceanspaces.com/icon/izuchaem-sunnu.jpg" alt=""></div>
+                    <span>Изучаем Сунну</span>
+                </a>
+                <a href="https://t.me/sunna_pobujdaee" class="sidebar-link">
+                    <div class="icon-wrapper"><img src="https://abdurtwhd.ams3.cdn.digitaloceanspaces.com/icon/sunna-pobuzhdaet.jpg" alt=""></div>
+                    <span>Сунна побуждает хорошо относиться к жене</span>
+                </a>
+                <a href="https://t.me/riyadu_salihin" class="sidebar-link">
+                    <div class="icon-wrapper"><img src="https://abdurtwhd.ams3.cdn.digitaloceanspaces.com/icon/adabulmufrad.jpg" alt=""></div>
+                    <span>Книга благонравия</span>
+                </a>
+                <a href="https://t.me/kniga_o_nikahe" class="sidebar-link">
+                    <div class="icon-wrapper"><img src="https://abdurtwhd.ams3.cdn.digitaloceanspaces.com/icon/nikah.jpg" alt=""></div>
+                    <span>Все о Браке и Разводе</span>
+                </a>
+                <a href="https://t.me/ochishenie_serdec" class="sidebar-link">
+                    <div class="icon-wrapper"><img src="https://abdurtwhd.ams3.cdn.digitaloceanspaces.com/icon/ochishenie.jpg" alt=""></div>
+                    <span>Очищение сердец</span>
+                </a>
+
+                <h3>Сирадж Абу Тальха</h3>
+                <a href="https://t.me/sirajabutalha" class="sidebar-link">
+                    <div class="icon-wrapper"><img src="https://abdurtwhd.ams3.cdn.digitaloceanspaces.com/icon/siradj.jpg" alt=""></div>
+                    <span>Сирадж Абу Тальха</span>
+                </a>
+                <a href="https://t.me/riyadu_salihin" class="sidebar-link">
+                    <div class="icon-wrapper"><img src="https://abdurtwhd.ams3.cdn.digitaloceanspaces.com/icon/sady-pravednyh.jpg" alt=""></div>
+                    <span>Сады праведных</span>
+                </a>
+                <a href="https://t.me/video_siraj" class="sidebar-link">
+                    <div class="icon-wrapper"><img src="https://abdurtwhd.ams3.cdn.digitaloceanspaces.com/icon/full-siradj.jpg" alt=""></div>
+                    <span>Полные уроки Сирадж Абу Тальха</span>
+                </a>
+
+                <h3>Абу Яхья Крымский</h3>
+                <a href="https://t.me/abuyahya_net" class="sidebar-link">
+                    <div class="icon-wrapper"><img src="https://abdurtwhd.ams3.cdn.digitaloceanspaces.com/icon/abu-yahiya.jpg" alt=""></div>
+                    <span>Абу Яхья Крымский</span>
+                </a>
+                <a href="https://t.me/abu_yahya_ob_islame" class="sidebar-link">
+                    <div class="icon-wrapper"><img src="https://abdurtwhd.ams3.cdn.digitaloceanspaces.com/icon/abu-yahiya-polza.jpg" alt=""></div>
+                    <span>Пользы из уроков Абу Яхья Крымский</span>
+                </a>
+
+                <h3>Каналы "Свет Сунны🌙✨"</h3>
+                <a href="https://t.me/svettsunny" class="sidebar-link">
+                    <div class="icon-wrapper"><img src="https://abdurtwhd.ams3.cdn.digitaloceanspaces.com/icon/favicon.jpg" alt=""></div>
+                    <span>Telegram</span>
+                </a>
+                <a href="https://youtube.com/@abdurtwhd?si=w234k_ooWOjyqJhz" class="sidebar-link">
+                    <div class="icon-wrapper"><img src="https://abdurtwhd.ams3.cdn.digitaloceanspaces.com/icon/yt.jpg" alt=""></div>
+                    <span>YouTube</span>
+                </a>
+                <a href="https://ru.pinterest.com/abdurtawhidi" class="sidebar-link">
+                    <div class="icon-wrapper"><img src="https://abdurtwhd.ams3.cdn.digitaloceanspaces.com/icon/pinterest.jpg" alt=""></div>
+                    <span>Pinterest</span>
+                </a>
+                <a href="https://www.instagram.com/abdurtwhd?igsh=MWk1d3hrYWJvYmhqbw==" class="sidebar-link">
+                    <div class="icon-wrapper"><img src="https://abdurtwhd.ams3.cdn.digitaloceanspaces.com/icon/insta.jpg" alt=""></div>
+                    <span>Instagram</span>
+                </a>
+
+            </div>
+        </nav>
+
+        <!-- Оверлей для мобильного меню -->
+        <div class="menu-overlay" id="menu-overlay"></div>
+
+        <!-- ПРАВАЯ ЧАСТЬ -->
+        <main class="main-content">
+            {% block content %}
+            {% endblock %}
+        </main>
+
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>© Свет Сунны ١٤٤٧ 2026. 
+                <br> Есть идея или поправка? По всем вопросам <a href="https://t.me/abdurtwhd" target="_blank">сюда</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuBtn = document.getElementById('menu-btn');
+            const sidebarNav = document.getElementById('sidebar-nav');
+            const overlay = document.getElementById('menu-overlay');
+
+            function toggleMenu() {
+                const isActive = sidebarNav.classList.toggle('active');
+                overlay.classList.toggle('active');
+                
+                // Принудительно двигаем сайдбар
+                if (isActive) {
+                    sidebarNav.style.left = '0';
+                } else {
+                    sidebarNav.style.left = '-280px'; // Изменили на -280px
+                }
+                
+                document.body.style.overflow = isActive ? 'hidden' : '';
+            }
+
+            if (menuBtn) {
+                menuBtn.addEventListener('click', toggleMenu);
+            }
+            if (overlay) {
+                overlay.addEventListener('click', toggleMenu);
+            }
+        });
+    </script>
+
+</body>
+</html>

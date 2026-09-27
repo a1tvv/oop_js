@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "main/wsgi.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "main/wsgi.py"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/parse-youtube/",
+      "schedule": "0 5 * * *"
+    }
+  ]
+}

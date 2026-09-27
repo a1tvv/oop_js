@@ -1,0 +1,391 @@
+/* ========== СТРАНИЦА СИРЫ (ТЕМНАЯ ТЕМА YOUTUBE) ========== */
+:root {
+    --card-bg: #1f1f1f;
+    --text-color: #f1f1f1;
+    --text-muted: #aaaaaa;
+    --accent-blue: #3ea6ff;
+    --accent-red: #ff0000;
+    --border-color: #303030;
+    --hover-bg: #272727;
+}
+
+/* Основной контент */
+.article-card {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.article-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #fff;
+    text-align: left;
+    line-height: 1.3;
+}
+
+.article-image img {
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    display: block;
+}
+
+.article-text {
+    line-height: 1.6;
+    font-size: 15px;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+    background: var(--card-bg);
+    padding: 16px 20px;
+    border-radius: 12px;
+}
+
+/* Кнопки скачивания (Telegram / YouTube) */
+.btn-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    text-align: center;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 12px;
+    margin-right: 10px;
+    font-weight: 500;
+    font-size: 14px;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.btn-download:hover {
+    background: var(--hover-bg);
+    border-color: var(--accent-blue);
+}
+
+.btn-download i {
+    font-size: 16px;
+}
+
+.btn-download .fa-telegram {
+    color: var(--accent-blue);
+}
+
+.btn-download .fa-youtube {
+    color: var(--accent-red);
+}
+
+/* Аудио-плееры */
+.audio-section {
+    margin-bottom: 30px;
+}
+
+.audio-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+}
+
+.audio-item:hover {
+    border-color: #444;
+}
+
+.audio-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.audio-info i {
+    font-size: 20px;
+    color: var(--accent-blue);
+}
+
+.audio-info p {
+    margin: 0;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--text-color);
+    line-height: 1.4;
+}
+
+/* Стили для <audio> в темной теме */
+.sira-audio {
+    width: 100%;
+    height: 40px;
+    background-color: #121212;
+    border-radius: 8px;
+    outline: none;
+}
+
+/* Затемнение стандартного плеера для темной темы */
+.sira-audio::-webkit-media-controls-panel {
+    background-color: #121212;
+}
+
+.sira-audio::-webkit-media-controls-current-time-display,
+.sira-audio::-webkit-media-controls-time-remaining-display {
+    color: #f1f1f1;
+}
+
+/* Контрольные вопросы */
+.control-questions-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 30px 0;
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-blue);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+}
+
+.card-header .icon {
+    font-size: 1.4rem;
+    margin-right: 12px;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #fff;
+    font-weight: 600;
+}
+
+.questions-list {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--text-muted);
+    line-height: 1.7;
+}
+
+.questions-list li {
+    margin-bottom: 12px;
+    padding-left: 8px;
+    font-size: 15px;
+}
+
+.questions-list li::marker {
+    color: var(--accent-blue);
+    font-weight: bold;
+}
+
+.questions-list li:hover {
+    color: var(--text-color);
+    transition: color 0.2s;
+}
+
+/* Пагинация */
+.pagination-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin: 40px 0;
+}
+
+.page-status {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.step-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--card-bg);
+    padding: 8px 15px;
+    border-radius: 25px;
+    border: 1px solid var(--border-color);
+    flex-wrap: wrap;
+    max-width: 100%;
+}
+
+.page-numbers {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.page-btn.ellipsis {
+    background: none;
+    cursor: default;
+    color: var(--text-muted);
+    min-width: 20px;
+}
+
+.page-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 35px;
+    height: 35px;
+    text-decoration: none;
+    color: var(--text-main, #f1f1f1);
+    font-weight: 600;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+    font-size: 0.9rem;
+}
+
+.page-btn:hover {
+    background: var(--hover-bg);
+}
+
+.page-btn.active {
+    background: var(--accent-blue);
+    color: #0f0f0f;
+    cursor: default;
+}
+
+.nav-btn {
+    font-size: 1.2rem;
+    color: var(--accent-blue);
+}
+
+.last-btn {
+    padding: 5px 15px;
+    font-weight: bold;
+}
+
+/* ========== АДАПТИВ ========== */
+@media (max-width: 900px) {
+    .article-card {
+        padding: 0;
+    }
+
+    .article-title {
+        font-size: 20px;
+    }
+
+    .article-text {
+        font-size: 14px;
+        padding: 14px 16px;
+    }
+
+    .control-questions-card {
+        padding: 20px 16px;
+    }
+
+    .card-header h3 {
+        font-size: 1rem;
+    }
+
+    .questions-list {
+        padding-left: 16px;
+    }
+
+    .questions-list li {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-numbers {
+        gap: 3px;
+    }
+    .page-btn {
+        min-width: 30px;
+        height: 30px;
+        padding: 5px 8px;
+    }
+}
+
+@media (max-width: 430px) {
+    .page-btn {
+        min-width: 32px;
+        height: 32px;
+        font-size: 0.85rem;
+        padding: 0;
+    }
+}
+
+/* ========== БАННЕР КАНАЛА (YouTube Style) ========== */
+.channel-banner {
+    position: relative;
+    width: 100%;
+    height: 240px; /* Высота как у YouTube */
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    background-color: #272727; /* Заглушка, если картинка не загрузится */
+}
+
+.channel-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Затемнение поверх картинки, чтобы текст читался */
+.banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.1) 0%,
+        rgba(0, 0, 0, 0.7) 100%
+    );
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 24px 32px;
+    box-sizing: border-box;
+}
+
+.banner-overlay h1 {
+    margin: 0 0 8px 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.banner-overlay p {
+    margin: 0;
+    font-size: 15px;
+    color: #e0e0e0;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* ========== АДАПТИВ ДЛЯ БАННЕРА ========== */
+@media (max-width: 900px) {
+    .channel-banner {
+        height: 160px;
+        border-radius: 12px;
+        margin-bottom: 16px;
+    }
+
+    .banner-overlay {
+        padding: 16px 20px;
+    }
+
+    .banner-overlay h1 {
+        font-size: 20px;
+    }
+
+    .banner-overlay p {
+        font-size: 13px;
+    }
+}
